@@ -250,10 +250,18 @@ var app = new Vue({
   computed: {
     todosFliter() {
       if(this.link === 'todo') {
-        return this.todos.filter(item => {if(!item.completed) {return item;}});
+        return this.todos.filter(item => {
+          if(!item.completed) {
+            return item;
+          }
+        });
       }
       if(this.link === 'completed') {
-        return this.todos.filter(item => {if(item.completed) {return item;}});
+        return this.todos.filter(item => {
+          if(item.completed) {
+            return item;
+          }
+        });
       }
       return this.todos;
     },
