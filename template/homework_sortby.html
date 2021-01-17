@@ -119,16 +119,20 @@
     <thead>
       <tr>
         <th>品名</th>
-        <th class="click">價格 
+        <th class="click" @click="sort('price')">價格 
           <!-- isReverse 為反轉 className -->
-          <span class="icon isReverse">
+          <span class="icon isReverse" :class="{'inverse': reverse}" v-if="target == 'price'">
             <i class=" fas fa-angle-up text-success"></i>
           </span>
         </th>
-        <th class="click">到期日 
+          <th class="click" @click="sort('expiryDate')">到期日 
+          <!-- isReverse 為反轉 className -->
+          <span class="icon isReverse" :class="{'inverse': reverse}" v-if="target == 'expiryDate'">
+            <i class=" fas fa-angle-up text-success"></i>
+          </span>
         </th>
       </tr>
-      <tr v-for="item in data">
+      <tr v-for="item in dataArr">
         <td>{{ item.name }}</td>
         <td>{{ item.price }}</td>
         <td>{{ item.expiryDate }}</td>
@@ -153,6 +157,8 @@
 var app = new Vue({
   el: '#app',
   data: {
+    reverse: false,
+    target: 'price',
     data: [
       {
         name: '巧呼呼蘇打水',
@@ -182,7 +188,22 @@ var app = new Vue({
     ],
   },
   // 請在此撰寫 JavaScript
-  computed: {}
+  computed: {
+    dataArr() {
+      return this.data.sort((a, b) => {
+        if(this.reverse) {
+          return a[this.target] === b[this.target] ? 0 : ((a[this.target] - b[this.target]) > 0 ? -1 : 1);
+        }
+        return a[this.target] === b[this.target] ? 0 : ((a[this.target] - b[this.target]) > 0 ? 1 : -1);
+      });
+    }
+  },
+  methods: {
+    sort: function(target) {
+      this.reverse = !this.reverse;
+      this.target = target;
+    }
+  }
 });
 </script>
 
